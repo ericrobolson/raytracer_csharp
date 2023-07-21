@@ -11,12 +11,15 @@ public class Game1 : Game
 
     private Texture2D? _texture;
     private Image _image;
+    private RaytracerEngine.Raytracer _raytracerEngine;
 
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+
+        _raytracerEngine = new RaytracerEngine.Raytracer();
     }
 
     protected override void Initialize()
@@ -30,6 +33,9 @@ public class Game1 : Game
         _graphics.PreferredBackBufferHeight = height;
 
         _image = new Image(width, height);
+
+        _raytracerEngine.Draw(_image);
+
         _texture = Texture2D.FromStream(GraphicsDevice, _image.GetImageStream());
     }
 
@@ -51,7 +57,7 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
 
         if (_texture is not null)
         {
@@ -59,7 +65,7 @@ public class Game1 : Game
             _spriteBatch.Draw(
                 _texture,
                 new Rectangle(0, 0, _image.Width, _image.Height),
-                Color.White
+                Microsoft.Xna.Framework.Color.White
             );
             _spriteBatch.End();
         }

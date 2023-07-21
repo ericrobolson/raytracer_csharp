@@ -1,7 +1,9 @@
 using System.IO;
-using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Graphics.Skia;
 
+/// <summary>
+/// Represents an image.
+/// </summary>
 public class Image
 {
     private readonly SkiaBitmapExportContext bmp;
@@ -12,23 +14,23 @@ public class Image
     public Image(int width, int height)
     {
         bmp = new SkiaBitmapExportContext(width, height, 1.0f);
-        ICanvas canvas = bmp.Canvas;
-        canvas.FillColor = Colors.White;
-
-        for (int x = 0; x < bmp.Width; x++)
-        {
-            for (int y = 0; y < bmp.Height; y++)
-            {
-                var color = new SkiaSharp.SKColor(
-                    (byte)(x * 255 / bmp.Width),
-                    (byte)(y * 255 / bmp.Height),
-                    128
-                );
-                bmp.Bitmap.SetPixel(x, y, color);
-            }
-        }
     }
 
+    /// <summary>
+    /// Sets the pixel at the given coordinates to the given color.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="color"></param>
+    public void SetPixel(int x, int y, Color color)
+    {
+        bmp.Bitmap.SetPixel(x, y, color.ToSKColor());
+    }
+
+    /// <summary>
+    /// Returns the image as a in memory stream.
+    /// </summary>
+    /// <returns></returns>
     public Stream GetImageStream()
     {
         var stream = new MemoryStream();
